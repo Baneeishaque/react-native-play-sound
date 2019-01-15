@@ -22,10 +22,16 @@ After install package saved:
 
 ## Methods
 ```
-PlaySound('sound_name')
+type StreamType = "MUSIC" | "ALARM" | "SYSTEM" | "NOTIFICATION"
+
+PlaySound(sound_name: string, stream: StreamType?): void
+```
+Play sound file. Default stream is "MUSIC", if invalid value is used will default to "MUSIC"
+```
 PlaySoundRepeat('sound_name')
 StopSound()
 PlaySoundMusicVolume('volume')
+PlaySoundStreamVolume(volume: number, stream: StreamType?): number
 
 ```
 

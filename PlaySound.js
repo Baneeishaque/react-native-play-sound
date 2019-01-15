@@ -7,10 +7,10 @@ const { SoundModule } = NativeModules;
 const nativeModules = require('react-native').NativeModules;
 
 module.exports = {
-  PlaySound : PlaySound = sound => {
+  PlaySound : PlaySound = (sound, stream = "MUSIC") => {
     Platform.OS === 'ios'
       ? nativeModules.SoundModule.playSound(sound)
-      : NativeModules.SoundManager.playSound(sound)
+      : NativeModules.SoundManager.playSound(sound, stream)
   },
   StopSound : StopSound = () => {
     Platform.OS === 'ios'
@@ -26,5 +26,10 @@ module.exports = {
     Platform.OS === 'ios'
       ? nativeModules.SoundModule.playSoundMusicVolume(value)
       : NativeModules.SoundManager.playSoundMusicVolume(value, value)
+  },
+  PlaySoundStreamVolume : PlaySoundStreamVolume = (value, stream = "MUSIC") => {
+    return Platform.OS === "ios"
+      ? null
+      : NativeModules.SoundManager.setSystemVolume(value, stream)
   }
 };
