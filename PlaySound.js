@@ -30,6 +30,6 @@ module.exports = {
   PlaySoundStreamVolume : PlaySoundStreamVolume = (value, stream = "MUSIC") => {
     return Platform.OS === "ios"
       ? null
-      : NativeModules.SoundManager.setSystemVolume(value, stream)
+      : NativeModules.SoundManager.setStreamVolume(value, stream)
   }
 };
