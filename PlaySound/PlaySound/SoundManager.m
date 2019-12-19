@@ -418,7 +418,11 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     
     _allowsBackgroundMusic = allow;
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:allow? AVAudioSessionCategoryAmbient: AVAudioSessionCategorySoloAmbient error:NULL];
+      if(allow) {
+          [session setCategory:AVAudioSessionCategoryPlayback error:NULL];
+          [session setActive:true error:nil];
+      }
+//    [session setCategory:allow? AVAudioSessionCategoryAmbient: AVAudioSessionCategorySoloAmbient error:NULL];
 #endif
     
   }
@@ -456,6 +460,7 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
 
 - (void)playMusic:(id)soundOrName looping:(BOOL)looping fadeIn:(BOOL)fadeIn
 {
+  [self setAllowsBackgroundMusic: true];
   Sound *music = [soundOrName isKindOfClass:[Sound class]]? soundOrName: [Sound soundNamed:soundOrName];
   if (![music.URL isEqual:_currentMusic.URL])
   {
