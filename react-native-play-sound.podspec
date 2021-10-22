@@ -1,5 +1,5 @@
 require 'json'
-package_json = JSON.parse(File.read('..//package.json'))
+package_json = JSON.parse(File.read('package.json'))
 
 
 Pod::Spec.new do |s|
@@ -11,9 +11,9 @@ Pod::Spec.new do |s|
   s.license        = package_json["license"]
   s.author         = { package_json["author"] => package_json["author"] }
   s.platform       = :ios, "7.0"
-  s.source       = { :git => "https://github.com/luminos-software/react-native-play-sound", :tag => "master" }
-  s.source_files  = "PlaySound/{SoundManager,SoundModule}/**/*.{h,m}"
-  s.dependency 'React'
+  s.source       = { :git => "https://github.com/prototypsthlm/react-native-play-sound", :tag => "master" }
+  s.source_files  = "ios/**/*.{h,m}"
+  s.dependency 'React-Core'
 
 end
   
