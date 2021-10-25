@@ -1,6 +1,6 @@
 {
   "name": "react-native-play-sound",
-  "version": "1.0.24",
+  "version": "2.0.0",
   "description": "Play music and sounds with react-native",
   "main": "PlaySound.js",
   "scripts": {
@@ -8,15 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luminos-software/react-native-play-sound.git"
+    "url": "git+https://github.com/prototypsthlm/react-native-play-sound.git"
   },
   "keywords": [
     "sound"
   ],
-  "author": " <ghita@luminos.software>",
+  "author": "<ghita@luminos.software>",
+  "maintainers": ["Yoav Luft <yoav.luft@prototyp.se>", "Prototyp SE"],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/luminos-software/react-native-play-sound/issues"
+    "url": "https://github.com/prototypsthlm/react-native-play-sound/issues"
   },
-  "homepage": "https://github.com/luminos-software/react-native-play-sound#readme"
+  "homepage": "https://github.com/prototypsthlm/react-native-play-sound#readme"
 }

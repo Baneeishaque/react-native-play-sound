@@ -11,7 +11,7 @@
 
 @implementation SoundModule
 
-RCT_EXPORT_MODULE();
+RCT_EXPORT_MODULE(PlaySound);
 
 - (dispatch_queue_t)methodQueue
 {

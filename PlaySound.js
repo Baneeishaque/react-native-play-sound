@@ -3,33 +3,33 @@ import {
   NativeModules,
 } from 'react-native';
 
-const { SoundModule } = NativeModules;
+const {SoundModule} = NativeModules;
 const nativeModules = require('react-native').NativeModules;
 
+const PlaySoundNative = Platform.OS === 'ios'
+  ? nativeModules.PlaySound
+  : NativeModules.PlaySound
+
 module.exports = {
-  PlaySound : PlaySound = (sound, stream = "MUSIC") => {
+  playSound: (sound, stream = "MUSIC") => {
     Platform.OS === 'ios'
-      ? nativeModules.SoundModule.playSound(sound)
-      : NativeModules.SoundManager.playSound(sound, stream)
+      ? PlaySoundNative.playSound(sound)
+      : PlaySoundNative.playSound(sound, stream)
   },
-  StopSound : StopSound = () => {
+  stopSound: () => {
+      PlaySoundNative.stopSound()
+  },
+  playSoundRepeat: sound => {
+      PlaySoundNative.playSoundRepeat(sound)
+  },
+  playSoundMusicVolume: value => {
     Platform.OS === 'ios'
-      ? nativeModules.SoundModule.stopSound()
-      : NativeModules.SoundManager.stopSound()
+      ? PlaySoundNative.playSoundMusicVolume(value)
+      : PlaySoundNative.playSoundMusicVolume(value, value)
   },
-  PlaySoundRepeat : PlaySoundRepeat = sound => {
-  Platform.OS === 'ios'
-    ? nativeModules.SoundModule.playSoundRepeat(sound)
-    : NativeModules.SoundManager.playSoundRepeat(sound)
-  },
-  PlaySoundMusicVolume : PlaySoundMusicVolume = value => {
-    Platform.OS === 'ios'
-      ? nativeModules.SoundModule.playSoundMusicVolume(value)
-      : NativeModules.SoundManager.playSoundMusicVolume(value, value)
-  },
-  PlaySoundStreamVolume : PlaySoundStreamVolume = (value, stream = "MUSIC") => {
+  playSoundStreamVolume: (value, stream = "MUSIC") => {
     return Platform.OS === "ios"
       ? null
-      : NativeModules.SoundManager.setStreamVolume(value, stream)
+      : PlaySoundNative.setStreamVolume(value, stream)
   }
 };

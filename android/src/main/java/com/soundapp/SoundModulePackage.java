@@ -1,4 +1,4 @@
-package com.soundapp;
+package se.prototyp.sound;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

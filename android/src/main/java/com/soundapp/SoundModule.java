@@ -1,4 +1,4 @@
-package com.soundapp;
+package se.prototyp.sound;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -21,7 +21,7 @@ public class SoundModule extends ReactContextBaseJavaModule {
     
     @Override
     public String getName() {
-        return "SoundManager";
+        return "PlaySound";
     }
     
     @ReactMethod
