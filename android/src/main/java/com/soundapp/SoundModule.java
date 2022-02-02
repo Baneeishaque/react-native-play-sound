@@ -4,31 +4,36 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.AudioManager;
 import android.media.AudioAttributes;
+import android.util.Log;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.Promise;
 
 public class SoundModule extends ReactContextBaseJavaModule {
-    
+
+    private static String TAG = "se.prototyp.sound.SoundModule";
+
     private ReactApplicationContext context;
     private MediaPlayer mediaPlayer;
-    
+
     public SoundModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.context = reactContext;
     }
-    
+
     @Override
     public String getName() {
         return "PlaySound";
     }
-    
+
     @ReactMethod
     public void playSound(String soundPath, String streamType) {
         try {
             int resource = context.getResources().getIdentifier(soundPath, "raw", context.getPackageName());
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
@@ -47,7 +52,7 @@ public class SoundModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void stopSound() {
         try {
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
@@ -60,7 +65,7 @@ public class SoundModule extends ReactContextBaseJavaModule {
     public void playSoundRepeat(String soundPath) {
         try {
             int resource = context.getResources().getIdentifier(soundPath, "raw", context.getPackageName());
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
@@ -73,30 +78,51 @@ public class SoundModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void playSoundMusicVolume(final Float left, final Float right){
-        if(mediaPlayer != null) {
+    public void playSoundMusicVolume(final Float left, final Float right) {
+        if (mediaPlayer != null) {
             mediaPlayer.setVolume(left, right);
         }
     }
 
     private int getStream(final String stream) {
         switch (stream) {
-            case "SYSTEM": return AudioManager.STREAM_SYSTEM;
-            case "MUSIC": return AudioManager.STREAM_MUSIC;
-            case "NOTIFICATION": return AudioManager.STREAM_NOTIFICATION;
-            case "ALARM": return AudioManager.STREAM_ALARM;
-            default: return AudioManager.STREAM_MUSIC;
+            case "SYSTEM":
+                return AudioManager.STREAM_SYSTEM;
+            case "MUSIC":
+                return AudioManager.STREAM_MUSIC;
+            case "NOTIFICATION":
+                return AudioManager.STREAM_NOTIFICATION;
+            case "ALARM":
+                return AudioManager.STREAM_ALARM;
+            case "RING":
+                return AudioManager.STREAM_RING;
+            default:
+                return AudioManager.STREAM_MUSIC;
         }
     }
 
     @ReactMethod
-    public float setStreamVolume(final Float value, final String stream) {
+    public void setStreamVolume(final Float value, final String stream, final Promise promise) {
+        try {
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            int streamId = this.getStream(stream);
+            int maxVolume = audioManager.getStreamMaxVolume(streamId);
+            int oldVolume = audioManager.getStreamVolume(streamId);
+            int volume = Math.round(maxVolume * value);
+            audioManager.setStreamVolume(streamId, volume, 0);
+            float normalisedOldVolume = ((float) oldVolume / (float) maxVolume);
+            promise.resolve(normalisedOldVolume);
+        } catch (Exception e) {
+            promise.reject(e);
+        }
+    }
+
+    @ReactMethod
+    public void adjustStreamMute(final Boolean shouldMute, final String stream) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int streamId = this.getStream(stream);
-        int maxVolume = audioManager.getStreamMaxVolume(streamId);
-        int oldVolume = audioManager.getStreamVolume(streamId);
-        int volume = Math.round(maxVolume * value);
-        audioManager.setStreamVolume(streamId, volume, 0);
-        return (float)oldVolume / maxVolume;
+        audioManager.adjustStreamVolume(streamId,
+                shouldMute ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE,
+                0);
     }
 }

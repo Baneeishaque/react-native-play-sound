@@ -3,33 +3,39 @@ import {
   NativeModules,
 } from 'react-native';
 
-const {SoundModule} = NativeModules;
 const nativeModules = require('react-native').NativeModules;
 
 const PlaySoundNative = Platform.OS === 'ios'
   ? nativeModules.PlaySound
   : NativeModules.PlaySound
 
-module.exports = {
-  playSound: (sound, stream = "MUSIC") => {
-    Platform.OS === 'ios'
-      ? PlaySoundNative.playSound(sound)
-      : PlaySoundNative.playSound(sound, stream)
+const PlaySound = {
+  playSound(soundPath, stream = "MUSIC") {
+    return Platform.OS === 'ios'
+      ? PlaySoundNative.playSound(soundPath)
+      : PlaySoundNative.playSound(soundPath, stream)
   },
-  stopSound: () => {
-      PlaySoundNative.stopSound()
+  stopSound() {
+    PlaySoundNative.stopSound()
   },
-  playSoundRepeat: sound => {
-      PlaySoundNative.playSoundRepeat(sound)
+  playSoundRepeat(soundPath) {
+    PlaySoundNative.playSoundRepeat(soundPath)
   },
-  playSoundMusicVolume: value => {
+  playSoundMusicVolume(value) {
     Platform.OS === 'ios'
       ? PlaySoundNative.playSoundMusicVolume(value)
       : PlaySoundNative.playSoundMusicVolume(value, value)
   },
-  playSoundStreamVolume: (value, stream = "MUSIC") => {
+  setStreamVolume(value, stream = "MUSIC") {
     return Platform.OS === "ios"
-      ? null
+      ? Promise.reject(new Error("Not supported"))
       : PlaySoundNative.setStreamVolume(value, stream)
+  },
+  adjustStreamMute(shouldMute, stream = "MUSIC") {
+    Platform.OS === "android"
+      ? PlaySoundNative.adjustStreamMute(shouldMute, stream)
+      : null
   }
-};
+}
+
+module.exports = PlaySound
