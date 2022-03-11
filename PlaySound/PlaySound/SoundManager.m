@@ -277,12 +277,12 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
 
 -(void)resume
 {
-    [_sound pause];
+    [_sound play];
 }
 
 -(void)pause
 {
-    [_sound play];
+    [_sound pause];
 }
 
 - (void)stop

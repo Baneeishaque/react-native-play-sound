@@ -33,6 +33,20 @@ RCT_EXPORT_METHOD(stopSound)
     });
 }
 
+RCT_EXPORT_METHOD(pauseSound)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SoundManager sharedManager] pauseMusic];
+    });
+}
+
+RCT_EXPORT_METHOD(resumeSound)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SoundManager sharedManager] resumeMusic];
+    });
+}
+
 RCT_EXPORT_METHOD(playSoundRepeat:(NSString *)soundPath)
 {
   dispatch_async(dispatch_get_main_queue(), ^{

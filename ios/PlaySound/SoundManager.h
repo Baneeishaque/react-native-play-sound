@@ -86,7 +86,8 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
 - (void)fadeOut:(NSTimeInterval)duration;
 - (void)play;
 - (void)stop;
-
+- (void)resume;
+- (void)pause;
 @end
 
 
@@ -110,6 +111,9 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
 
 - (void)stopMusic:(BOOL)fadeOut;
 - (void)stopMusic;
+
+- (void)pauseMusic;
+- (void)resumeMusic;
 
 - (void)playSound:(id)soundOrName looping:(BOOL)looping fadeIn:(BOOL)fadeIn;
 - (void)playSound:(id)soundOrName looping:(BOOL)looping;
