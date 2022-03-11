@@ -1,4 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="se.prototyp.sound">
-</manifest>
-
+<manifest package="se.prototyp.sound" />
