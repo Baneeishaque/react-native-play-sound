@@ -5,7 +5,7 @@
 //  Copyright © 2017 Facebook. All rights reserved.
 //
 
-#import <React/RCTBridge.h>
+#import "RCTBridge.h"
 
 @interface SoundModule : NSObject <RCTBridgeModule>
 
