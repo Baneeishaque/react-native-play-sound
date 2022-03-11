@@ -30,6 +30,20 @@ const PlaySound = {
     return Platform.OS === "ios"
       ? Promise.reject(new Error("Not supported"))
       : PlaySoundNative.setStreamVolume(value, stream)
+  PauseSound : PauseSound = () => {
+    Platform.OS === 'ios'
+      ? nativeModules.SoundModule.pauseSound()
+      : NativeModules.SoundManager.pauseSound()
+  },
+  ResumeSound : ResumeSound = () => {
+    Platform.OS === 'ios'
+      ? nativeModules.SoundModule.resumeSound()
+      : NativeModules.SoundManager.resumeSound()
+  },
+  PlaySoundRepeat : PlaySoundRepeat = sound => {
+  Platform.OS === 'ios'
+    ? nativeModules.SoundModule.playSoundRepeat(sound)
+    : NativeModules.SoundManager.playSoundRepeat(sound)
   },
   adjustStreamMute(shouldMute, stream = "MUSIC") {
     Platform.OS === "android"
